@@ -49,9 +49,16 @@ func Initialize() error {
 }
 
 func (app *App) start() error {
+	app.health()
 	app.registerRoutes()
 
 	return app.server.Listen(fmt.Sprintf(":%d", app.config.AppPort))
+}
+
+func (app *App) health() {
+	app.server.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
+	})
 }
 
 func (app *App) registerRoutes() {
