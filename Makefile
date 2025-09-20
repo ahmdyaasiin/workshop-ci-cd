@@ -3,13 +3,13 @@ include .env
 .PHONY: compose-up compose-down migrate-up migrate-down migrate-fresh seed
 
 DOCKER_COMPOSE_CMD = docker compose
-EXEC = docker exec -it app ./workshop-ci-cd
+EXEC = docker exec -it app-$(USERNAME) ./workshop-ci-cd
 
 FORCE ?=
 FORCE_FLAG := $(if $(filter 1 true yes on,$(FORCE)),-f,)
 
 define docker-run
-	@$(EXEC) $(1) 2>/dev/null || echo "Container 'app' is not running"
+	@$(EXEC) $(1) 2>/dev/null || echo "Container 'app-$(USERNAME)' is not running"
 endef
 
 compose-up:
