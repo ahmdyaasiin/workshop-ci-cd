@@ -1,14 +1,10 @@
 name: workshop-ci-cd
 services:
   app:
-    container_name: app
+    container_name: "app-${USERNAME}"
     env_file:
       - .env
-    build: 
-      context: .
-      dockerfile: Dockerfile
-      args:
-        APP_PORT: ${APP_PORT}
+    image: ghcr.io/${IMAGE_NAME}:${IMAGE_TAG}
     ports:
       - "${APP_PORT}:${APP_PORT}"
     depends_on:
@@ -19,7 +15,7 @@ services:
       - private-network
 
   postgres:
-    container_name: postgres  
+    container_name: "postgres-${USERNAME}"
     env_file:
       - .env
     image: postgres:17
