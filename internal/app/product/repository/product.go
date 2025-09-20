@@ -35,7 +35,12 @@ func (r *RProduct) All(ctx context.Context, keyword string) ([]entity.Product, e
 	}
 
 	if rows != nil {
-		defer rows.Close()
+		defer func() {
+			if err := rows.Close(); err != nil {
+				return
+			}
+		}()
+		// defer rows.Close()
 	}
 
 	if err != nil {
